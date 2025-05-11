@@ -41,6 +41,13 @@ public class PedidoReceiverController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping
+    public ResponseEntity<List<PedidoResponse>> buscarTodos() {
+        log.info("Iniciando busca de todos os pedidos");
+        List<PedidoResponse> response = buscarTodosPedidosUseCase.executar();
+        return ResponseEntity.ok(response);
+    }
+
     @PatchMapping("/{id}/status/{novoStatus}")
     public ResponseEntity<Void> atualizarStatus(
             @PathVariable UUID id,
