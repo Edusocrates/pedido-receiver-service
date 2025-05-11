@@ -1,0 +1,43 @@
+server:
+  port: 8086
+  servlet:
+    context-path: /pedido-receiver-service
+
+spring:
+  application:
+    name: pedido-receiver-service
+
+  datasource:
+    url: jdbc:postgresql://postgres-pedido-receiver:5432/pedido_receiver_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+
+rabbitmq:
+  exchange:
+    pedido: pedido.exchange
+  routing-key:
+    baixa-estoque: estoque.baixa
+    solicitar-pagamento: pagamento.solicitar
+    estornar-pagamento: pagamento.estornar
