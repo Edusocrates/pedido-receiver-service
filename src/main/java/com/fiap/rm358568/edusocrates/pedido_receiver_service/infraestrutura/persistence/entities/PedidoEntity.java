@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,8 +34,8 @@ public class PedidoEntity {
     @Column(nullable = false)
     private BigDecimal valorTotal;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<ItemPedidoEntity> itens;
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemPedidoEntity> itens = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "dados_pagamento_id", referencedColumnName = "id")

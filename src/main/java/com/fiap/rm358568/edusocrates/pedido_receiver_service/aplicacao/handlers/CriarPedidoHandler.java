@@ -27,14 +27,16 @@ public class CriarPedidoHandler implements CriarPedidoUseCase {
     @Transactional
     public PedidoResponse executar(CriarPedidoRequest request) {
         log.info("Iniciando o cadastro do pedido");
+
+        // Mapeia o request para o domínio
         Pedido pedido = pedidoMapper.toDomain(request);
 
-        dadosPagamentoGateway.salvar(pedido.getDadosPagamento());
-        itemPedidoGateway.salvarTodos(pedido.getItens());
-
+        // Persiste o Pedido (com cascade nos itens e dados de pagamento, se configurado)
         Pedido salvo = pedidoGateway.salvar(pedido);
+
         log.info("Pedido cadastrado com sucesso: {}", salvo);
         return pedidoMapper.toResponse(salvo);
     }
+
 }
 

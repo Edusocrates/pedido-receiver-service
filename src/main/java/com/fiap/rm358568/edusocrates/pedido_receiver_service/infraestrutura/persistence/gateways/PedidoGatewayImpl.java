@@ -2,6 +2,8 @@ package com.fiap.rm358568.edusocrates.pedido_receiver_service.infraestrutura.per
 
 import com.fiap.rm358568.edusocrates.pedido_receiver_service.dominio.entities.Pedido;
 import com.fiap.rm358568.edusocrates.pedido_receiver_service.dominio.gateways.PedidoGateway;
+import com.fiap.rm358568.edusocrates.pedido_receiver_service.infraestrutura.persistence.entities.ItemPedidoEntity;
+import com.fiap.rm358568.edusocrates.pedido_receiver_service.infraestrutura.persistence.entities.PedidoEntity;
 import com.fiap.rm358568.edusocrates.pedido_receiver_service.infraestrutura.persistence.mappers.PedidoEntityMapper;
 import com.fiap.rm358568.edusocrates.pedido_receiver_service.infraestrutura.persistence.repostories.PedidoEntityRepository;
 import jakarta.transaction.Transactional;
@@ -25,8 +27,26 @@ public class PedidoGatewayImpl implements PedidoGateway {
     @Transactional
     public Pedido salvar(Pedido pedido) {
         log.info("Salvando pedido no banco de dados! pedido: {}", pedido);
-        return mapper.toDomain(pedidoJpaRepository.save(mapper.toEntity(pedido)));
+
+        // Mapeia para a entidade JPA
+        PedidoEntity pedidoEntity = mapper.toEntity(pedido);
+
+        // Garante o vínculo do pedido com os itens
+        for (ItemPedidoEntity item : pedidoEntity.getItens()) {
+            item.setPedido(pedidoEntity);
+        }
+
+        // Garante o vínculo do pedido com dados de pagamento
+//        if (pedidoEntity.getDadosPagamento() != null) {
+//            pedidoEntity.getDadosPagamento().setPedido(pedidoEntity);
+//        }
+
+        // Salva a entidade com cascade
+        PedidoEntity salvo = pedidoJpaRepository.save(pedidoEntity);
+
+        return mapper.toDomain(salvo);
     }
+
 
     @Override
     public Optional<Pedido> buscarPorId(UUID id) {
