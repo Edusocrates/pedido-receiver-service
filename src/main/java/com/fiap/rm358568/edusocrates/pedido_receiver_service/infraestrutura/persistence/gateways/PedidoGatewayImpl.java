@@ -4,6 +4,7 @@ import com.fiap.rm358568.edusocrates.pedido_receiver_service.dominio.entities.Pe
 import com.fiap.rm358568.edusocrates.pedido_receiver_service.dominio.gateways.PedidoGateway;
 import com.fiap.rm358568.edusocrates.pedido_receiver_service.infraestrutura.persistence.mappers.PedidoEntityMapper;
 import com.fiap.rm358568.edusocrates.pedido_receiver_service.infraestrutura.persistence.repostories.PedidoEntityRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ public class PedidoGatewayImpl implements PedidoGateway {
     private final PedidoEntityMapper mapper;
 
     @Override
+    @Transactional
     public Pedido salvar(Pedido pedido) {
         log.info("Salvando pedido no banco de dados! pedido: {}", pedido);
         return mapper.toDomain(pedidoJpaRepository.save(mapper.toEntity(pedido)));
@@ -46,5 +48,13 @@ public class PedidoGatewayImpl implements PedidoGateway {
                 .stream()
                 .map(mapper::toDomain)
                 .toList();
+    }
+
+    @Override
+    @Transactional
+    public int atualizar(Pedido pedido) {
+        log.info("Atualizando pedido no banco de dados! pedido: {}", pedido);
+        return pedidoJpaRepository.atualizarStatus(pedido.getId(), pedido.getStatus());
+
     }
 }

@@ -46,6 +46,7 @@ public class PedidoReceiverController {
             @PathVariable UUID id,
             @PathVariable String novoStatus
     ) {
+        log.info("Iniciando atualização do status do pedido com ID: {} para o status: {}", id, novoStatus);
         atualizarStatusPedidoUseCase.execute(id, StatusPedido.valueOf(novoStatus));
         return ResponseEntity.noContent().build();
     }

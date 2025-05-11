@@ -4,6 +4,7 @@ import com.fiap.rm358568.edusocrates.pedido_receiver_service.API.exceptions.Pedi
 import com.fiap.rm358568.edusocrates.pedido_receiver_service.aplicacao.usecases.AtualizarStatusPedidoUseCase;
 import com.fiap.rm358568.edusocrates.pedido_receiver_service.dominio.entities.enums.StatusPedido;
 import com.fiap.rm358568.edusocrates.pedido_receiver_service.dominio.gateways.PedidoGateway;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class AtualizarStatusPedidoHandler implements AtualizarStatusPedidoUseCas
     private final PedidoGateway pedidoGateway;
 
     @Override
+    @Transactional
     public void execute(UUID pedidoId, StatusPedido statusPedido) {
         log.info("Atualizando status do pedido com ID: {}", pedidoId);
         StatusPedido novoStatus = statusPedido;
@@ -27,6 +29,6 @@ public class AtualizarStatusPedidoHandler implements AtualizarStatusPedidoUseCas
 
         log.info("Pedido encontrado! o Pedido: {} sera atualizado!", pedido);
         pedido.atualizarStatus(novoStatus);
-        pedidoGateway.salvar(pedido);
+        pedidoGateway.atualizar(pedido);
     }
 }

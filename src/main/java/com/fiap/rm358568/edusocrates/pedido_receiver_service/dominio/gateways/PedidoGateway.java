@@ -11,4 +11,5 @@ public interface PedidoGateway {
     Optional<Pedido> buscarPorId(UUID id);
     void deletarPorId(UUID id);
     List<Pedido> buscarTodos();
+    int atualizar(Pedido pedido);
 }
