@@ -7,6 +7,8 @@ import com.fiap.rm358568.edusocrates.pedido_receiver_service.aplicacao.usecases.
 import com.fiap.rm358568.edusocrates.pedido_receiver_service.aplicacao.usecases.BuscarTodosPedidosUseCase;
 import com.fiap.rm358568.edusocrates.pedido_receiver_service.aplicacao.usecases.CriarPedidoUseCase;
 import com.fiap.rm358568.edusocrates.pedido_receiver_service.dominio.entities.enums.StatusPedido;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import java.util.UUID;
 @RequestMapping("/pedidos-receiver")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Configurações Pedido Receiver!", description = "Operações pedido Receiver!")
 public class PedidoReceiverController {
 
     private final CriarPedidoUseCase criarPedidoUseCase;
@@ -28,6 +31,8 @@ public class PedidoReceiverController {
     private final AtualizarStatusPedidoUseCase atualizarStatusPedidoUseCase;
 
     @PostMapping
+    @Tag(name = "Criar Pedido Receiver!", description = "Operações criar pedido Receiver!")
+    @Operation(summary = "Criar Pedido Receiver!", description = "Operações criar pedido Receiver!")
     public ResponseEntity<PedidoResponse> criarPedido(@Valid @RequestBody CriarPedidoRequest request) {
         log.info("Iniciando o cadastro do pedido!");
         PedidoResponse response = criarPedidoUseCase.executar(request);
@@ -35,6 +40,7 @@ public class PedidoReceiverController {
     }
 
     @GetMapping("/{id}")
+    @Tag(name = "Buscar Pedido Receiver!", description = "Operações buscar pedido Receiver!")
     public ResponseEntity<PedidoResponse> buscarPorId(@PathVariable UUID id) {
         log.info("Iniciando Busca pedido com ID: {}", id);
         PedidoResponse response = buscarPedidoPorIdUseCase.execute(id);
@@ -42,6 +48,8 @@ public class PedidoReceiverController {
     }
 
     @GetMapping
+    @Tag(name = "Buscar Todos Pedidos Receiver!", description = "Operações buscar todos pedidos Receiver!")
+    @Operation(summary = "Buscar Todos Pedidos Receiver!", description = "Operações buscar todos pedidos Receiver!")
     public ResponseEntity<List<PedidoResponse>> buscarTodos() {
         log.info("Iniciando busca de todos os pedidos");
         List<PedidoResponse> response = buscarTodosPedidosUseCase.executar();
@@ -49,6 +57,8 @@ public class PedidoReceiverController {
     }
 
     @PatchMapping("/{id}/status/{novoStatus}")
+    @Tag(name = "Atualizar Status Pedido Receiver!", description = "Operações atualizar status pedido Receiver!")
+    @Operation(summary = "Atualizar Status Pedido Receiver!", description = "Operações atualizar status pedido Receiver!")
     public ResponseEntity<Void> atualizarStatus(
             @PathVariable UUID id,
             @PathVariable String novoStatus

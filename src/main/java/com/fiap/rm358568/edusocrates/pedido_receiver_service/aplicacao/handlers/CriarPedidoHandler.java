@@ -18,10 +18,10 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class CriarPedidoHandler implements CriarPedidoUseCase {
 
-    private final PedidoGateway pedidoGateway;
-    private final ItemPedidoGateway itemPedidoGateway;
-    private final DadosPagamentoGateway dadosPagamentoGateway;
-    private final PedidoMapper pedidoMapper;
+    private  PedidoGateway pedidoGateway;
+    private  ItemPedidoGateway itemPedidoGateway;
+    private  DadosPagamentoGateway dadosPagamentoGateway;
+    private  PedidoMapper pedidoMapper;
 
     @Override
     @Transactional

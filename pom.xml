@@ -85,33 +85,79 @@
 			<artifactId>spring-rabbit-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.8.6</version>
+		</dependency>
+
+
+
+		<!-- configuracoes para testes unitarios -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+
+
 	</dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.11</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<excludes>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_receiver_service/infraestrutura/mappers/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_receiver_service/API/request/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_receiver_service/API/response/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_receiver_service/API/mappers/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pagamento_service/aplicacao/mappers/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_receiver_service/infraestrutura/config/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_receiver_service/infraestrutura/messaging/events/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_receiver_service/infraestrutura/messaging/utils/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_receiver_service/infraestrutura/messaging/listeners/PagamentoListener.class</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_receiver_service/infraestrutura/external/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_receiver_service/infraestrutura/persistence/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_receiver_service/aplicacao/mappers/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_receiver_service/API/exceptions/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_receiver_service/dominio/**</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
